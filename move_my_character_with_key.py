@@ -1,8 +1,8 @@
 from pico2d import *
 
-
-open_canvas()
-grass = load_image('grass.png')
+TUK_WIDTH, TUK_HEIGHT = 1280, 1024
+open_canvas(TUK_WIDTH, TUK_HEIGHT)
+tuk_ground = load_image('TUK_GROUND.png')
 character = load_image('character.png')
 
 
@@ -44,8 +44,8 @@ def handle_events():
                 direction = 1
 
 running = True
-x = 800 // 2
-y = 90
+x = TUK_WIDTH // 2
+y = TUK_HEIGHT // 2
 frame = 0
 direction = 0;
 move_x = 0
@@ -54,13 +54,25 @@ move_y = 0
 # fill here
 while running:
     clear_canvas()
-    grass.draw(400, 30)
+    tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     character.clip_draw(frame*64,direction*64,64,64,x,y)
     update_canvas()
     handle_events()
     frame = (frame + 1) % 9
-    x += move_x * 5
-    y += move_y * 5
+    if(x>TUK_WIDTH):
+        x = TUK_WIDTH
+    elif(x<0):
+        x = 0
+    else:
+        x += move_x * 5
+
+    if (y > TUK_HEIGHT):
+        y = TUK_HEIGHT
+    elif (y < 0):
+        y = 0
+    else:
+        y += move_y * 5
+
     delay(0.05)
 
 close_canvas()
